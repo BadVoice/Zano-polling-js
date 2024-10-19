@@ -1,5 +1,5 @@
-import { addressEncode } from '../address';
-import { base58Decode, base58Encode } from '../base58';
+import { addressEncode } from '../libs/core/address';
+import { base58Decode, base58Encode } from '../libs/core/base58';
 
 const rawAddressBufferHex = 'c5 01 9f 5e 1f a9 36 30 d4 b2 81 b1 8b b6 7a 3d b7 9e 96 22 fc 70 3c c3 ad 4a 45 3a 82 e0 a3 6d 51 fa a3 f2 08 c8 f9 ba 49 ba b2 8e ed 62 b3 5b 0f 6b e0 a2 97 bc d8 5c 2f aa 1e b1 82 05 27 bc f7 e3 e2 38 1c d6';
 
