@@ -1,71 +1,8 @@
- # Logs
- logs
- *.log
- npm-debug.log*
- yarn-debug.log*
- yarn-error.log*
- lerna-debug.log*
+.idea
+node_modules
+coverage
 
- # Runtime data
- pids
- *.pid
- *.seed
- *.pid.lock
- *.socket.lock
-
- # Directory for instrumented code
- coverage
-
- # Compiled binary addons (https://nodejs.org/api/addons.html)
- build/Release
-
- # Dependency directories
- node_modules/
- .node_modules/
- .pnp
- .pnp.js
-
- # Optional directory for development tools
- .devcontainer/
-
- # Local environment variables
- .env
- .env*.local
- .env.development.local
- .env.test.local
- .env.production.local
-
- # Configuration files
- *.config.js
-
- # Compiled output
- dist/
- out/
-
- # Cache directories
- .cache/
- .next/
- .nuxt/
-
- # Test reports
- junit.xml
- jest.config.js
- mocha.opts
- test/results
- cypress/videos
- cypress/screenshots
-
- # Editor and IDE settings
- .idea/
- .vscode/
- *.suo
- *.ntvs*
- *.njsproj
- *.sln
- *.sw*
-
- # Miscellaneous
- npm-debug.log
- yarn-error.log
- .DS_Store
- Thumbs.db
+# Yarn >=2
+.yarn
+.pnp.*
+.yarnrc.yml
