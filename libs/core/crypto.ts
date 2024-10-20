@@ -1,6 +1,7 @@
-import { cnFastHash } from './keccak';
-const ADDRESS_CHECKSUM_SIZE = 4;
+import * as sha3 from 'js-sha3';
 
-export function getChecksum(buffer): Uint8Array {
-  return cnFastHash(buffer).subarray(0, ADDRESS_CHECKSUM_SIZE);
+const ADDRESS_CHECKSUM_SIZE = 8;
+
+export function getChecksum(buffer) {
+  return sha3.keccak_256(buffer).substring(0, ADDRESS_CHECKSUM_SIZE);
 }

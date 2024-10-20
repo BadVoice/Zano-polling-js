@@ -16,7 +16,7 @@ function encodeToHex(hexString: string): string {
     .join('');
 }
 
-function bufferToHex(buffer: Buffer): string {
+export function bufferToHex(buffer: Buffer): string {
   let combinedHexString = '';
   for (let i = 0; i < buffer.length; i++) {
     combinedHexString += buffer[i].toString(16).padStart(2, '0');
@@ -82,17 +82,17 @@ function runTestEncodeAddress(address: string, viewPubKey: string, spendPubKey: 
     throw new Error('PubSpendKey not matched.');
   }
 
-
+  const flag = Buffer.from([1]);
   const spKey = Buffer.from(serializedSpendKey, 'hex');
   const vKey = Buffer.from(serializedViewKey, 'hex');
 
   let buf: Buffer = Buffer.from([197]);
-  buf = Buffer.concat([buf, spKey, vKey]);
+  buf = Buffer.concat([buf, flag, spKey, vKey]);
 
   const encodedAddress: string = addressEncode(197, buf);
 
   if(encodedAddress !== address) {
-    throw new Error('Encoded address not matched.');
+    throw new Error(`Encoded address not matched. Received ${encodedAddress}, Expected: ${address}`);
   }
 }
 
