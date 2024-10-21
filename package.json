@@ -29,7 +29,6 @@
     "js-sha3": "^0.9.3",
     "keccak": "^3.0.3",
     "rimraf": "^3.0.2",
-    "sha3": "^2.1.4",
     "sodium-native": "^4.0.0"
   },
   "devDependencies": {

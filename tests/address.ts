@@ -28,13 +28,13 @@ export function bufferToHex(buffer: Buffer): string {
 }
 
 export function makeBytes(data: string): Uint8Array {
-  const byteArray = data.split('\\x').slice(1).map(byte => parseInt(byte, 16));
+  const byteArray: number[] = data.split('\\x').slice(1).map(byte => parseInt(byte, 16));
   return new Uint8Array(byteArray);
 }
 
 function testEncode(expected: string, data: string) {
-  const byteData = makeBytes(data);
-  const result = base58Encode(byteData);
+  const byteData: Uint8Array = makeBytes(data);
+  const result: string = base58Encode(byteData);
   console.log(`Expected: '${expected}', Received: '${result}', ByteData:`, byteData);
   console.assert(result === expected, `Expected ${expected} but got ${result}`);
 }
@@ -59,15 +59,15 @@ function runTests() {
   testEncode('22222222222VtB5VXc', '\\x06\\x15\\x60\\x13\\x76\\x28\\x79\\xF7\\xFF\\xFF\\xFF\\xFF\\xFF');
 
   const expectedAddress = 'ZxD5aoLDPTdcaRx4uCpyW4XiLfEXejepAVz8cSY2fwHNEiJNu6NmpBBDLGTJzCsUvn3acCVDVDPMV8yQXdPooAp338Se7AxeH';
-  const dataToAddress = dataToEncodeFn(rawAddressBufferHex);
+  const dataToAddress: string = dataToEncodeFn(rawAddressBufferHex);
   testEncode(expectedAddress, dataToAddress);
 }
 
 function runTestEncodeAddress(address: string, viewPubKey: string, spendPubKey: string) {
-  const addressData = dataToEncodeFn(bufferToHex(base58Decode(address)));
+  const addressBufferHex: string = dataToEncodeFn(bufferToHex(base58Decode(address)));
   testEncode(
     'ZxD5aoLDPTdcaRx4uCpyW4XiLfEXejepAVz8cSY2fwHNEiJNu6NmpBBDLGTJzCsUvn3acCVDVDPMV8yQXdPooAp338Se7AxeH',
-    addressData,
+    addressBufferHex,
   );
 
   const serializedViewKey: string = encodeToHex(Buffer.from(viewPubKey, 'hex').toString('hex'));
@@ -82,14 +82,10 @@ function runTestEncodeAddress(address: string, viewPubKey: string, spendPubKey: 
     throw new Error('PubSpendKey not matched.');
   }
 
-  const flag = Buffer.from([1]);
   const spKey = Buffer.from(serializedSpendKey, 'hex');
   const vKey = Buffer.from(serializedViewKey, 'hex');
 
-  let buf: Buffer = Buffer.from([197]);
-  buf = Buffer.concat([buf, flag, spKey, vKey]);
-
-  const encodedAddress: string = addressEncode(197, buf);
+  const encodedAddress: string = addressEncode(197, 1, spKey, vKey);
 
   if(encodedAddress !== address) {
     throw new Error(`Encoded address not matched. Received ${encodedAddress}, Expected: ${address}`);

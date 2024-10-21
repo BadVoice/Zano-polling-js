@@ -17,7 +17,7 @@ for (let i = 0; i <= FULL_DECODED_BLOCK_SIZE; i++) {
   DECODED_BLOCK_SIZES[ENCODED_BLOCK_SIZES[i]] = i;
 }
 
-function bufferToUint64(buffer) {
+function bufferToUint64(buffer: Uint8Array) {
   if (!buffer.length || buffer.length > UINT64_SIZE) {
     throw new Error(
       `only a buffer of size between 1 and ${UINT64_SIZE} can be converted `,
@@ -32,7 +32,7 @@ function bufferToUint64(buffer) {
   return uint64;
 }
 
-function uint64ToBuffer(buffer, uint64) {
+function uint64ToBuffer(buffer: Buffer, uint64: bigint) {
   if (!buffer.length || buffer.length > UINT64_SIZE) {
     throw new Error(
       'a uint64 can only be converted to a buffer of size between 1 and ' +
@@ -52,7 +52,7 @@ function uint64ToBuffer(buffer, uint64) {
   }
 }
 
-export function encodeBlock(buffer) {
+export function encodeBlock(buffer: Uint8Array) {
   if (!buffer.length || buffer.length > FULL_ENCODED_BLOCK_SIZE) {
     throw new Error(
       'base58 block buffer size must be between 1 and ' +
@@ -73,7 +73,7 @@ export function encodeBlock(buffer) {
   return string.padStart(stringSize, ALPHABET[0]);
 }
 
-export function decodeBlock(buffer, string) {
+export function decodeBlock(buffer: Buffer, string: string) {
   if (!string || string.length > FULL_ENCODED_BLOCK_SIZE) {
     throw new Error(
       'base58 block string size must be between 1 and ' +
@@ -105,12 +105,11 @@ export function decodeBlock(buffer, string) {
   uint64ToBuffer(buffer, uint64);
 }
 
-export function base58Encode(buffer) {
+export function base58Encode(buffer: Uint8Array) {
   let string = '';
 
   for (let start = 0; start < buffer.length;) {
     const end = start + FULL_DECODED_BLOCK_SIZE;
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     const block = buffer.subarray(start, end);
     string += encodeBlock(block);
     start = end;
@@ -119,12 +118,10 @@ export function base58Encode(buffer) {
   return string;
 }
 
-export function base58Decode(string) {
-  const bufferSize =
-    // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-    Math.floor(string.length / FULL_ENCODED_BLOCK_SIZE) *
+export function base58Decode(string: string) {
+  const bufferSize = Math.floor(string.length / FULL_ENCODED_BLOCK_SIZE) *
     FULL_DECODED_BLOCK_SIZE +
-    DECODED_BLOCK_SIZES[string.length % FULL_ENCODED_BLOCK_SIZE];
+    +DECODED_BLOCK_SIZES[string.length % FULL_ENCODED_BLOCK_SIZE];
 
   if (!bufferSize) {
     throw new Error(
@@ -138,7 +135,7 @@ export function base58Decode(string) {
     const blockDecoded = buffer.subarray(startDecoded, endDecoded);
 
     const endEncoded = startEncoded + FULL_ENCODED_BLOCK_SIZE;
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+
     const blockEncoded = string.slice(startEncoded, endEncoded);
 
     decodeBlock(blockDecoded, blockEncoded);
